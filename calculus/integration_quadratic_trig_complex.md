@@ -108,59 +108,234 @@ I(0)=\int_0^\pi \ln1\,dx=0.
 \boxed{I(d)=0}
 \]
 
-### 1.2 对称性/复分析解释
+### 1.2 交换积分顺序写法：关键内层积分怎么算
 
-注意：
+也可以把对数写成对参数的积分。因为
 
 \[
-1-2d\cos x+d^2=|1-de^{ix}|^2.
+\frac{\partial}{\partial s}
+\ln(1-2s\cos x+s^2)
+=
+\frac{2s-2\cos x}{1-2s\cos x+s^2},
 \]
 
 所以
 
 \[
-\ln(1-2d\cos x+d^2)=2\ln|1-de^{ix}|.
-\]
-
-若 \(|d|<1\)，函数
-
-\[
-u(z)=\ln|1-dz|
-\]
-
-在单位圆内调和，且
-
-\[
-u(0)=\ln1=0.
-\]
-
-由调和函数平均值性质：
-
-\[
-\int_0^{2\pi}\ln|1-de^{ix}|\,dx=0.
-\]
-
-因此
-
-\[
-\int_0^{2\pi}\ln(1-2d\cos x+d^2)\,dx=0.
-\]
-
-又因为 integrand 关于 \(x\mapsto 2\pi-x\) 对称，所以
-
-\[
-\int_0^{2\pi}f(x)\,dx=2\int_0^\pi f(x)\,dx.
+\ln(1-2d\cos x+d^2)-\ln1
+=
+\int_0^d
+\frac{2s-2\cos x}{1-2s\cos x+s^2}\,ds.
 \]
 
 于是
 
 \[
-\boxed{
-\int_0^\pi \ln(1-2d\cos x+d^2)\,dx=0.
-}
+I(d)
+=
+\int_0^\pi\int_0^d
+\frac{2s-2\cos x}{1-2s\cos x+s^2}\,ds\,dx.
 \]
 
-注意：单纯的 \(x\mapsto \pi-x\) 对称性不能直接推出结果。真正的原因是圆周平均/调和函数平均值性质。
+在 \(|d|<1\) 时，分母不为零，被积函数在矩形区域上连续，所以可以交换积分顺序：
+
+\[
+I(d)
+=
+\int_0^d
+\left[
+\int_0^\pi
+\frac{2s-2\cos x}{1-2s\cos x+s^2}\,dx
+\right]ds.
+\]
+
+关键是计算内层积分：
+
+\[
+J(s)=
+\int_0^\pi
+\frac{2s-2\cos x}{1-2s\cos x+s^2}\,dx.
+\]
+
+令
+
+\[
+D=1-2s\cos x+s^2.
+\]
+
+有恒等式：
+
+\[
+D+s^2-1=2s(s-\cos x).
+\]
+
+因此
+
+\[
+2(s-\cos x)=\frac{D+s^2-1}{s}.
+\]
+
+所以
+
+\[
+\frac{2s-2\cos x}{D}
+=
+\frac{1}{s}+\frac{s^2-1}{sD}.
+\]
+
+于是
+
+\[
+J(s)
+=
+\int_0^\pi \frac{dx}{s}
++
+\frac{s^2-1}{s}
+\int_0^\pi\frac{dx}{1-2s\cos x+s^2}.
+\]
+
+即
+
+\[
+J(s)
+=
+\frac{\pi}{s}
++
+\frac{s^2-1}{s}K(s),
+\]
+
+其中
+
+\[
+K(s)=\int_0^\pi\frac{dx}{1-2s\cos x+s^2}.
+\]
+
+下面计算 \(K(s)\)。用万能代换
+
+\[
+t=\tan\frac{x}{2}.
+\]
+
+则
+
+\[
+\cos x=\frac{1-t^2}{1+t^2},
+\qquad
+ dx=\frac{2dt}{1+t^2}.
+\]
+
+当 \(x:0\to\pi\) 时，\(t:0\to\infty\)。分母变为
+
+\[
+1-2s\cos x+s^2
+=
+1-2s\frac{1-t^2}{1+t^2}+s^2.
+\]
+
+通分：
+
+\[
+1-2s\cos x+s^2
+=
+\frac{(1+s^2)(1+t^2)-2s(1-t^2)}{1+t^2}.
+\]
+
+展开分子：
+
+\[
+(1+s^2)(1+t^2)-2s(1-t^2)
+=
+(1-2s+s^2)+(1+2s+s^2)t^2.
+\]
+
+也就是
+
+\[
+1-2s\cos x+s^2
+=
+\frac{(1-s)^2+(1+s)^2t^2}{1+t^2}.
+\]
+
+所以
+
+\[
+K(s)
+=
+\int_0^\infty
+\frac{1}{\frac{(1-s)^2+(1+s)^2t^2}{1+t^2}}
+\frac{2dt}{1+t^2}.
+\]
+
+约掉 \(1+t^2\)：
+
+\[
+K(s)
+=
+2\int_0^\infty
+\frac{dt}{(1-s)^2+(1+s)^2t^2}.
+\]
+
+用基础公式
+
+\[
+\int_0^\infty\frac{dt}{A+Bt^2}
+=
+\frac{\pi}{2\sqrt{AB}},
+\qquad A,B>0.
+\]
+
+这里
+
+\[
+A=(1-s)^2,
+\qquad
+B=(1+s)^2.
+\]
+
+因为 \(|s|<1\)，所以
+
+\[
+\sqrt{AB}=(1-s)(1+s)=1-s^2.
+\]
+
+因此
+
+\[
+K(s)
+=
+2\cdot\frac{\pi}{2(1-s^2)}
+=
+\frac{\pi}{1-s^2}.
+\]
+
+代回 \(J(s)\)：
+
+\[
+J(s)
+=
+\frac{\pi}{s}
++
+\frac{s^2-1}{s}\cdot\frac{\pi}{1-s^2}
+=
+\frac{\pi}{s}-\frac{\pi}{s}=0.
+\]
+
+所以
+
+\[
+I(d)
+=
+\int_0^d J(s)\,ds
+=0.
+\]
+
+这个方法的重点不是对称性，而是：
+
+\[
+\boxed{
+\text{先把 }\ln\text{ 写成参数积分，再交换积分顺序，最后用 }t=\tan\frac{x}{2}\text{ 算内层积分。}
+}
+\]
 
 ---
 
